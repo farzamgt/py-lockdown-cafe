@@ -10,11 +10,10 @@ from app.errors import (
 def go_to_cafe(friends: list, cafe: Cafe) -> str:
     try:
         for friend in friends:
-            if (
-                "vaccine" not in friend
-                or friend["vaccine"]["expiration_date"] < datetime.date.today()
-            ):
+            if "vaccine" not in friend:
                 raise NotVaccinatedError("All friends should be vaccinated")
+            if friend["vaccine"]["expiration_date"] < datetime.date.today():
+                raise OutdatedVaccineError("All friends should be vaccinated")
 
         for friend in friends:
             cafe.visit_cafe(friend)
